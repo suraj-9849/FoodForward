@@ -5,7 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>My Live Location (Restaurant)</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
   <link rel="stylesheet" href="/css/style.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -15,14 +16,19 @@
   <div class="absolute bottom-0 w-full bg-white p-4 shadow-lg z-20 flex flex-col items-center">
     <p class="text-black font-bold text-xl mb-2">Upload the Correct Location</p>
     <p class="text-gray-600 text-sm mb-4">(Save the location file and upload it here)</p>
-    <input class="text-red-500 mb-2 p-2 border border-gray-300 rounded" type="file" onchange="handleFileUploaded()" id="LiveLocation">
+    <button class="print bg-red-500 text-white text-sm px-2 py-4 rounded-md mb-2">Click Here to save this (Print)</button>
+    <label for="LiveLocation" class="block text-gray-700 font-bold mb-2">Choose a File:</label>
+    <input class="appearance-none border rounded w-64 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+           type="file" onchange="handleFileUploaded()" id="LiveLocation">
 
     <div id="fileName" class="text-blue-500 font-medium mb-2"></div>
     <div id="errorMessage" class="text-red-500 font-medium mb-2 hidden"></div>
-    <button id="confirmButton" class="bg-blue-500 text-white px-4 py-2 rounded hidden" onclick="confirmUpload()">Confirm Upload</button>
+    <button id="confirmButton" class="bg-blue-500 text-white px-4 py-2 rounded hidden" onclick="confirmUpload()">Confirm
+      Upload</button>
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet-src.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet-src.min.js" crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
   <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" crossorigin="anonymous"></script>
   <script src="/js/script.js"></script>
   <script>
@@ -32,16 +38,17 @@
       const fileNameDiv = document.querySelector("#fileName");
       const errorMessageDiv = document.querySelector("#errorMessage");
       const confirmButton = document.querySelector("#confirmButton");
+
       errorMessageDiv.textContent = "";
       errorMessageDiv.classList.add("hidden");
       input.classList.remove("border-red-500");
 
       if (file) {
         fileNameDiv.textContent = `Selected file: ${file.name}`;
-        if (file.name.split(".").pop().toLowerCase() === "html") {
+        if (file.name.split(".").pop().toLowerCase() === "pdf"||file.name.split(".").pop().toLowerCase()== ".doc") {
           confirmButton.classList.remove("hidden");
         } else {
-          errorMessageDiv.textContent = "Invalid file format. Please upload a .html file.";
+          errorMessageDiv.textContent = "Invalid file format. Please upload a .pdf/.doc file.";
           errorMessageDiv.classList.remove("hidden");
           input.classList.add("border-red-500");
           confirmButton.classList.add("hidden");
@@ -58,6 +65,17 @@
       }, 1000);
     }
 
+    document.addEventListener('DOMContentLoaded', function() {
+      const printButton = document.querySelector(".print");
+      if (printButton) {
+        printButton.addEventListener("click", () => {
+          window.print();
+        });
+      } else {
+        console.error('Print button not found');
+      }
+    });
+
     const socket = io();
 
     if (navigator.geolocation) {
@@ -69,7 +87,7 @@
       }, {
         timeout: 5000,
         maximumAge: 0,
-        enableHighAccuracy: true 
+        enableHighAccuracy: true
       });
     }
 
