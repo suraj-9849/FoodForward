@@ -39,6 +39,9 @@ router.post('/stripe', async function(req, res) {
       throw new Error("Invalid donation amount.");
     }
 
+    // Get the base URL from the request
+    const baseUrl = `${req.protocol}://${req.get('host')}`;
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [{
@@ -48,13 +51,13 @@ router.post('/stripe', async function(req, res) {
             name: 'Food Forward Donation',
             description: 'Donation from Poor People',
           },
-        unit_amount: donationAmount * 100,
+          unit_amount: donationAmount * 100,
         },
         quantity: 1,
       }],
       mode: 'payment',
-      success_url: `${process.env.BASE_URL}/complete`,
-      cancel_url: `${process.env.BASE_URL}/cancel`,
+      success_url: `${baseUrl}/complete`,
+      cancel_url: `${baseUrl}/cancel`,
     });
 
     res.redirect(session.url);
@@ -63,6 +66,7 @@ router.post('/stripe', async function(req, res) {
     res.status(500).send("Internal Server Error");
   }
 });
+
 
 // Stripe complete page
 router.get("/complete", function(req, res) {

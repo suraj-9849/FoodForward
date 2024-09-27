@@ -3,8 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npx nodemon index.js"
-
+    "build": "echo 'No build step'",
+    "start": "node index.js"
   },
   "dependencies": {
     "body-parser": "^1.20.2",
