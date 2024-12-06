@@ -12,12 +12,6 @@ The intuitive user interface of FoodForward makes it easy for restaurants to upl
 - Restaurants with surplus food looking to donate excess food responsibly.
 - Non-governmental organizations dedicated to distributing food to the needy.
 
-## Authors
-
-- [@suraj-9849](https://github.com/suraj-9849)
-- [@prithviireddy](https://github.com/prithviireddy)
-- [@Sathya-reddy1658](https://github.com/Sathya-reddy1658)
-
 ## Tech Stack
 
 ### Frontend:
